@@ -1,0 +1,30 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: canteen-backend
+    env: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        sync: false # Set in Render Dashboard
+      - key: JWT_SECRET
+        sync: false # Set in Render Dashboard
+      - key: CLIENT_URL
+        sync: false # Set in Render Dashboard
+      - key: NODE_ENV
+        value: production
+
+  # Frontend Static Site
+  - type: web
+    name: canteen-frontend
+    env: static
+    plan: free
+    rootDir: client
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false # Set in Render Dashboard
